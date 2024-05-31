@@ -24,8 +24,8 @@ fi
 /root/PPPwn_WRT-main/kill.sh
 
 # Construct and execute the command with the chosen script
- echo "heartbeat" > /sys/class/leds/red:info/trigger
+ #echo "heartbeat" > /sys/class/leds/red:info/trigger
 /root/PPPwn_WRT-main/${script_name} --interface $interface --fw $firmware --stage1 /root/PPPwn_WRT-main/stage1_$firmware.bin --stage2 /root/PPPwn_WRT-main/stage2_$firmware.bin --auto-retry 
-echo "none" > /sys/class/leds/red:info/trigger
-echo "default-on" > /sys/class/leds/green:info/trigger
+#echo "none" > /sys/class/leds/red:info/trigger
+#echo "default-on" > /sys/class/leds/green:info/trigger
 
