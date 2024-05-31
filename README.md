@@ -23,7 +23,7 @@ Download the project to your router:
 
 ```sh
 opkg update
-wget https://github.com/MODDEDWARFARE/PPPwn_WRT/raw/main/install.sh
+wget https://github.com/dhuu/Pwn_WRT_WILL-PS4/raw/main/install.sh
 chmod +x install.sh && . ./install.sh
 ```
 
