@@ -1,25 +1,25 @@
-# PPPwn on OpenWRT
+# PPPwn no OpenWRT
 
-A method of running PPPwn on an OpenWRT-based router.
+Um método para executar o PPPwn em um roteador baseado em OpenWRT.
 
-## Supported Routers
+## Roteadores Suportado
 
-You can check to see if your router is supported [here](https://openwrt.org/toh/start).
+Você pode verificar se o seu roteador é compatível [Aqui](https://openwrt.org/toh/start).
 
-## Prerequisites
+## Pré-requisitos
 
-Once OpenWRT is installed, you will need to temporarily connect the router to the internet. You can do this in the LuCI web interface by following these steps:
+Depois que o OpenWRT estiver instalado, você precisará conectar temporariamente o roteador à Internet. Você pode fazer isso na interface web do LuCI seguindo estas etapas:
 
-1. Go to **Wireless** settings and select the **Scan** option.
-2. Select your network and join it as a client.
+1. Acesse as configurações de **Sem fio** e selecione a opção **Scan**.
+2. Selecione sua rede e junte-se a ela como cliente.
 
-**WARNING:** Ensure your `br-lan` interface does not use the same subnet as your home network before joining as a client. Otherwise they will conflict.
+**AVISO:** Certifique-se de que sua interface `br-lan` (dhcp, rege de ips) não seja a mesma sub-rede que sua rede doméstica antes de ingressar como cliente. Caso contrário, eles entrarão em conflito.
 
-## Setup
+## Configurar
 
-Remote into your router through SSH
+Conecte-se remotamente ao seu roteador por meio de SSH
 
-Download the project to your router:
+Baixe o projeto para o seu roteador:
 
 ```sh
 opkg update
@@ -27,44 +27,44 @@ wget https://github.com/dhuu/Pwn_WRT_WILL-PS4/raw/main/install.sh
 chmod +x install.sh && . ./install.sh
 ```
 
-Select your interface most common is `br-lan`.
+Selecione sua interface mais comum é `br-lan`.
 
-Select your firmware `11.00`, `10.00` or `9.00`.
+Selecione seu firmware `11.00`, `10.00` or `9.00`.
 
-You will be asked if you want to load PPPwn from the Web Interface. You should not use this option if you have limited storage space and
-are planning to load PPPwn on startup or with a button on the router.
+Você será perguntado se deseja carregar o PPPwn da interface da Web. Você não deve usar esta opção se tiver espaço de armazenamento limitado e
+estão planejando carregar o PPPwn na inicialização ou com um botão no roteador.
 
-You will be asked if you want to load the script on startup. If you select `Y` for Yes you can edit this in future by editing the file: `/etc/rc.local`.
+Você será perguntado se deseja carregar o script na inicialização. Se você selecionar `Y` para Sim, você poderá editar isso no futuro editando o arquivo: `/etc/rc.local`.
 
-You will be asked if you want to power down the router after loading the exploit. This feature may not work on some routers and could
-cause them to reboot instead. If any files do not download correctly during installation this option could also cause a boot loop.
+Você será perguntado se deseja desligar o roteador após carregar o exploit. Este recurso pode não funcionar em alguns roteadores e pode
+fazer com que eles reiniciem. Se algum arquivo não for baixado corretamente durante a instalação, esta opção também poderá causar um loop de inicialização.
 
-You will be asked if you want to install nano. If you have limited storage space it's best to decline this option and use vi instead.
+Você será perguntado se deseja instalar o nano. Se você tiver espaço de armazenamento limitado, é melhor recusar esta opção e usar o vi.
 
-You can now run the script from the terminal by entering `./run.sh` or run it from the LuCI web interface by going to **System > Custom Commands > PPPwn PS4 > Run**.
+Agora você pode executar o script no terminal digitando `./run.sh` ou execute-o a partir da interface web do LuCI acessando **System > Custom Commands > PPPwn PS4 > Run**.
 
-## Using a Button to Trigger the Exploit 
-(1-click WPS button to run "run.sh") or Triger the process killer (Hold 3 sec WPS button to run "kill.sh")
+## Usando um botão para acionar a exploração 
+(1-clique no botão WPS para executar "run.sh") ou Acione o processo killer (segure o botão WPS por 3 segundos para executar "kill.sh")
 
-This method is a bit more involved than the previous one.
+Este método é um pouco mais complicado que o anterior.
 
-1. SSH into the router and navigate to `cd /etc/rc.button`.
+1. Entre no SSH do roteador e navegue até `cd /etc/rc.button`.
 
-2. Type `ls` to list available buttons.
-   ![Available Buttons](https://i.imgur.com/kb0hZrT.png)
+2. Digite `ls` para listar os botões disponíveis.
+   ![Botões disponíveis](https://i.imgur.com/kb0hZrT.png)
 
-3. Find a button you want to replace, e.g., `wps`.
+3. Encontre um botão que deseja substituir, por exemplo, `wps`.
 
-4. Edit the button script with:
+4. Edite o script do botão com:
 
     ```sh
     nano wps
     ```
 
-5. Look for the `wps` button "released" code. It should look something like:
-   ![WPS Button Code](https://i.imgur.com/ej8kr91.png)
+5. Procure o código "released" do botão `wps`. Deve ser algo como:
+   ![Código do botão WPS](https://i.imgur.com/ej8kr91.png)
 
-6. Delete everything inside the `if` statement and replace it with the following command:
+6. Exclua tudo dentro da instrução `if` e substitua-o pelo seguinte comando:
    
     ```sh
     cd /root/PPPwn_WRT-main && ./run.sh
@@ -76,33 +76,33 @@ This method is a bit more involved than the previous one.
     ```
     
 
-   Example:
-   ![Button Script](https://i.imgur.com/IMSN7Np.png)
+  Exemplo:
+   ![Script de botão](https://i.imgur.com/IMSN7Np.png)
 
-Now, when you press the `wps` button, it will run the script.
+Agora, ao pressionar o botão `wps`, o script será executado.
 
-## LED Support
+## Suporte LED
 
-If your router has LED indicators for `wps`, `power`, `wlan`, etc., you can use them to indicate when the script is running.
+Se o seu roteador tiver indicadores LED para `wps`, `power`, `wlan`, etc., você pode usá-los para indicar quando o script está sendo executado.
 
-1. Type `ls /sys/class/leds/` to list available LEDs.
-2. Choose an LED, e.g., `red:info`.
-3. Edit the script to change the LED behavior:
+1. Digite `ls /sys/class/leds/` para listar os LEDs disponíveis.
+2. Escolha um LED, por exemplo, `red:info`.
+3. Edite o script para alterar o comportamento do LED:
 
     ```sh
     nano /root/PPPwn_WRT-main/run.sh
     ```
 
-4. Replace `green:wps` with `red:info` in:
+4. Substitua `green:wps` por `red:info` em:
 
     ```sh
     echo "heartbeat" > /sys/class/leds/green:wps/trigger
     ```
 
-You can also change the LED behavior from `heartbeat` to:
-- `none` = off
-- `default-on` = always on
-- `heartbeat` = blinking
-- `timer` = time delay
+Você também pode alterar o comportamento do LED de `heartbeat` para:
+- `none` = desligado
+- `default-on` = sempre ligado
+- `heartbeat` = piscando
+- `timer` = atraso de tempo
 
 ---
