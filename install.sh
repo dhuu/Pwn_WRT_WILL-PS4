@@ -66,7 +66,7 @@ elif echo "$machine_arch" | grep -q "mips"; then
         fi
         chmod +x pppwn_mips
     else
-        wget https://github.com/dhuu/Pwn_WRT_WILL-PS4/raw/main/pppwn_mipsel
+        wget https://github.com/MODDEDWARFARE/PPPwn_WRT/raw/main/pppwn_mipsel
         if [ $? -ne 0 ]; then
             echo "Failed to download pppwn_mipsel"
             exit 1
