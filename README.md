@@ -104,5 +104,6 @@ Você também pode alterar o comportamento do LED de `heartbeat` para:
 - `default-on` = sempre ligado
 - `heartbeat` = piscando
 - `timer` = atraso de tempo
-
+Baixar para linux/PI
+https://github.com/dhuu/Pwn_WRT_WILL-PS4/raw/main/PI-Pwn-main.zip
 ---
